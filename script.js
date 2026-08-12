@@ -24,24 +24,28 @@ function isValidEmail(email) {
     return re.test(String(email).toLowerCase());
 }
 
+// Get fieldname
+function getFieldName(input) {
+    return input.id.charAt(0).toUpperCase() + input.id.slice(1);
+}
+
+// Check required
+function checkRequired(inputArr) {
+    inputArr.forEach( (input) => {
+        if(input.value.trim() === '') {
+            showError(input, `${getFieldName(input)} is required`);
+        } else {
+            showSuccess(input);
+        }
+    })
+};
+ 
+
 // Event Listeners
 form.addEventListener('submit', function(e) {
     e.preventDefault();
 
-    if(isBlank(username.value)) {
-        showError(username, 'Username is required');
-    } else {
-        showSuccess(username);
-    }
-
-    if(isBlank(email.value)) {
-        showError(email, 'Email is required');
-    } else if (!isValidEmail(email.value)) {
-        showError(email, 'Email is not valid');
-    }
-    else {
-        showSuccess(email);
-    }
+    checkRequired([username, email, password, password2]);
 });
 
 const isBlank = (str) => !str || str.trim().length === 0; // !str checks for falsy -> null, undef, "", false, 0, NaN
