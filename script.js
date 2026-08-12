@@ -19,9 +19,20 @@ function showSuccess(input) {
 }
 
 // Check email is valid
-function isValidEmail(email) {
+function checkEmail(input) {
     const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return re.test(String(email).toLowerCase());
+    if (re.test(input.value.trim())) {
+        showSuccess(input);
+    } else {
+        showError(input, 'Email is not Valid')
+    }
+}
+
+// Check passwords match
+function passwordsMatch(input1, input2) {
+    if(input1.value !== input2.value) {
+        showError(input2, 'Passwords do not match')
+    }
 }
 
 // Get fieldname
@@ -39,13 +50,27 @@ function checkRequired(inputArr) {
         }
     })
 };
- 
+
+// Check input length
+function checkLength(input, min, max) {
+    if(input.value.length < min) {
+        showError(input, `${getFieldName(input)} must be at least ${min} characters`);
+    } else if(input.value.length > max) {
+        showError(input, `${getFieldName(input)} must be at less than ${max} characters`);
+    } else {
+        showSuccess
+    }
+}
 
 // Event Listeners
 form.addEventListener('submit', function(e) {
     e.preventDefault();
 
     checkRequired([username, email, password, password2]);
+    checkLength(username, 3, 15);
+    checkLength(password, 6, 25);
+    checkEmail(email);
+    passwordsMatch(password, password2);
 });
 
 const isBlank = (str) => !str || str.trim().length === 0; // !str checks for falsy -> null, undef, "", false, 0, NaN
