@@ -4,6 +4,8 @@ const count = document.getElementById('count');
 const total = document.getElementById('total');
 const movieSelect = document.getElementById('movie');
 
+populateUI();
+
 // Turn String -> Integer
 let ticketPrice = parseInt(movieSelect.value);// Avengers returns 10 as a string
 
@@ -19,9 +21,8 @@ function updateSelectedCount() {
  
     // Copy selected seats into arr
     // Map through array
-    // return a new array of indexes\
+    // return a new array of indexes
     const seatsIndex = [...selectedSeats].map( (seat) => [...seats].indexOf(seat));// indexOf gets the 0-index of the curr seat);
-
     localStorage.setItem('selectedSeats', JSON.stringify(seatsIndex));
     
     const selectedSeatLength = selectedSeats.length;
@@ -29,15 +30,32 @@ function updateSelectedCount() {
     total.innerText = selectedSeatLength * ticketPrice;
 }
 
+// Get Data from localstorage and populate UI
+function populateUI() {
+    const selectedSeats = JSON.parse(localStorage.getItem('selectedSeats'));
+    if (selectedSeats !== null && selectedSeats.length > 0) {
+        seats.forEach( (seat, index) => {
+            if (selectedSeats.indexOf(index) > -1) {
+                seat.classList.add('selected');
+            }
+        });
+    }
+
+    const selectedMovieIndex = localStorage.getItem('selectedMovieIndex');
+    if (selectedMovieIndex !== null) {
+        movieSelect.selectedIndex = selectedMovieIndex;
+    }
+}
+
 // Movie select event
 movieSelect.addEventListener('change', e => {
-    ticketPrice = +e.target.value;
-    setMovieData(e.target.selectedIndex, e.target.value);
+    ticketPrice = +e.target.value;// change the value of the ticketPrice to update the total
+    setMovieData(e.target.selectedIndex, e.target.value);// value returns the ticket price
     updateSelectedCount();
 });
 
 // Seat click event
-container.addEventListener('click', (e) => {
+container.addEventListener('click', (e) => {// e for element clicked
     if (e.target.classList.contains('seat') 
         && !e.target.classList.contains('occupied')) {
         e.target.classList.toggle('selected');
@@ -45,7 +63,8 @@ container.addEventListener('click', (e) => {
     }
 });
 
-
+// Initial count and total set
+updateSelectedCount();
 
 
 
