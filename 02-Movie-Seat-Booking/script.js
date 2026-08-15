@@ -1,5 +1,5 @@
 const container = document.querySelector('.container');
-const seats = document.querySelectorAll('.row .seat:not(.occupied'); // All Acts like an array
+const seats = document.querySelectorAll('.row .seat:not(.occupied)'); // All Acts like an array
 const count = document.getElementById('count');
 const total = document.getElementById('total');
 const movieSelect = document.getElementById('movie');
@@ -56,8 +56,9 @@ function checkAllSelected() {
 }
 
 function selectAllSeats() {
+    // returns true if class ('active') is off or flase if off
     const isActive = selectAll.classList.toggle('active');
-    // Local storage can only store strings
+    // Local storage can only store strings or null if key is not set
     // localStorage.setItem('selectAllButton', isActive); <- not needed now with checkAllSelected()
     // isActive === true which gets turned into "true"
     seats.forEach( (seat) => {
@@ -78,13 +79,14 @@ movieSelect.addEventListener('change', e => {
 });
 
 // Seat click event
+// Checks is this actually a seat and not an occupied one inside the container
 container.addEventListener('click', (e) => {// e for element clicked
     if (e.target.classList.contains('seat') 
         && !e.target.classList.contains('occupied')) {
         e.target.classList.toggle('selected');
         updateSelectedCount();
+        checkAllSelected();
     }
-    checkAllSelected();
 });
 
 // Initial count and total set
