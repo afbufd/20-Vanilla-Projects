@@ -110,3 +110,30 @@ p.text {
 p.text span {
     color: #6feaf6;
 }
+
+.selectAll-container {
+    text-align: center;
+    margin: 13px 0 9px;
+}
+
+.selectAll {
+    background-color: rgba(0,0,0,.134);
+    color: grey;
+    border: none;
+    text-align: center;
+    padding: 9px;
+    border-radius: 6px;
+    font-size: 17px;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.selectAll:hover {
+    cursor: pointer;
+}
+
+.selectAll.active {
+    color: black;
+    background-color: #6feaf6;
+    box-shadow: 0 0 4px rgba(123, 244, 248, 0.6);
+}

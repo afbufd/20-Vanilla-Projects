@@ -3,6 +3,7 @@ const seats = document.querySelectorAll('.row .seat:not(.occupied'); // All Acts
 const count = document.getElementById('count');
 const total = document.getElementById('total');
 const movieSelect = document.getElementById('movie');
+const selectAll = document.getElementById('selectAll');
 
 populateUI();
 
@@ -35,7 +36,7 @@ function populateUI() {
     const selectedSeats = JSON.parse(localStorage.getItem('selectedSeats'));
     if (selectedSeats !== null && selectedSeats.length > 0) {
         seats.forEach( (seat, index) => {
-            if (selectedSeats.indexOf(index) > -1) {
+            if (selectedSeats.indexOf(index) > -1) {//indexOf(3) -> 2 in [1,2,3]
                 seat.classList.add('selected');
             }
         });
@@ -45,7 +46,29 @@ function populateUI() {
     if (selectedMovieIndex !== null) {
         movieSelect.selectedIndex = selectedMovieIndex;
     }
+
+    checkAllSelected();
 }
+
+function checkAllSelected() {
+    const allSelected = seats.length > 0 && [...seats].every( seat => seat.classList.contains('selected'));
+    selectAll.classList.toggle('active', allSelected);
+}
+
+function selectAllSeats() {
+    const isActive = selectAll.classList.toggle('active');
+    // Local storage can only store strings
+    // localStorage.setItem('selectAllButton', isActive); <- not needed now with checkAllSelected()
+    // isActive === true which gets turned into "true"
+    seats.forEach( (seat) => {
+        seat.classList.toggle('selected', isActive);
+    });
+    updateSelectedCount();
+}
+
+selectAll.addEventListener('click', () => {
+    selectAllSeats();
+});
 
 // Movie select event
 movieSelect.addEventListener('change', e => {
@@ -61,11 +84,12 @@ container.addEventListener('click', (e) => {// e for element clicked
         e.target.classList.toggle('selected');
         updateSelectedCount();
     }
+    checkAllSelected();
 });
 
 // Initial count and total set
+// Show seats and price on load
 updateSelectedCount();
-
 
 
 
