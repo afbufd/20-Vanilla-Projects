@@ -23,7 +23,8 @@ h1 {
     cursor: pointer;
     width: 60%;
     background-color: #d8c1d4 !important;
-    border-radius: 21px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 
 }
 
@@ -31,11 +32,12 @@ h1 {
     background: #1f1f1e;
     color: white;
     width: 60%;
-    border-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 10px;
+    padding: 7px 0;
 }
 
 .controls .btn{
@@ -59,7 +61,7 @@ h1 {
 .controls .timestamp {
     color: white;
     font-weight: bold;
-    margin-left: 10px;
+    margin: 0 9px;
 }
 
 .btn:focus {
@@ -69,7 +71,7 @@ h1 {
 @media(max-width: 800px) {
     .screen,
     .controls {
-        width: 75%;
+        width: 85%;
     }
 }
 
