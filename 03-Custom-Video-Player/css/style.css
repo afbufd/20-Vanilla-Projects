@@ -45,11 +45,33 @@ h1 {
 }
 
 .controls .fa-play{
-    color: #28a745;
+    color: #f1f1f1;
 }
 
+.controls .fa-stop {
+    color: #c9303f;
+}
 
+.controls .fa-pause {
+    color: white;
+}
 
+.controls .timestamp {
+    color: white;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.btn:focus {
+    outline: 0;
+}
+
+@media(max-width: 800px) {
+    .screen,
+    .controls {
+        width: 75%;
+    }
+}
 
 
 
