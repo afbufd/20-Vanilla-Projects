@@ -28,6 +28,7 @@ p {
 
 .swap-rate-container {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
@@ -76,8 +77,10 @@ p {
 
 .rate {
     color: var(--primary-color);
-    font-size: 14px;
+    font-size: 18px;
+    font-weight: 600;
     padding: 0 10px;
+    margin-top: 13px;
 }
 
 select:focus,
