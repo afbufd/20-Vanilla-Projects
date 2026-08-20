@@ -40,6 +40,10 @@ button {
     font-size: 14px;
 }
 
+.container-main {
+    flex: 1;
+}
+
 main {
     flex: 1;
     padding: 10px 20px;
@@ -56,14 +60,12 @@ h2 {
 }
 
 h3 {
-    background-color: white;
     border-bottom: 1px solid black;
     padding: 10px;
     display: flex;
     justify-content: space-between;
-    font-weight: 300px;
     align-items: center;
-    margin: 20px 0 0px;
+    margin: 20px 0 0 20px;/* top right bot left */
 }
 
 .person {
@@ -71,6 +73,13 @@ h3 {
     justify-content: space-between;
     font-size: 20px;
     margin-bottom: 10px;
+}
+
+.error {
+    padding: 10px;
+    background: lightcoral;
+    margin: 20px 15px 0;
+    border-radius: 8px;
 }
 
 
