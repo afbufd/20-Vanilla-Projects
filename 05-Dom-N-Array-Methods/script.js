@@ -30,15 +30,20 @@ function clearError() {
 
 // Fetch random user and add money
 async function getRandomUser() {
+    // Safety Net
     if (data.length >= MAX_USERS) {
         showError(`Maximum of ${MAX_USERS} users reached.`);
         return;
     }
     
+    // Call API to get random users
     const response = await fetch('https://randomuser.me/api');
     const json = await response.json();
+    // Json holds results and info and we grab results that has an array with 1 user object
     const user = json.results[0];
     
+    // Grab the users first and last name 
+    // Create the users amount in money
     const newUser = {
         name: `${user.name.first} ${user.name.last}`,
         money: Math.floor(Math.random() * 1000000)
@@ -51,12 +56,16 @@ async function getRandomUser() {
 function addData(userObj) {
     data.push(userObj);
 
+    // Render list again and set new currView while clearing errors
     updateDOM();
     
+    // If wealth is visible run calcTotalWealth()
     if (wealthVisible) {
         calcTotalWealth();
     }
     
+    // Every we click add user once data.length reaches
+    // MAX_USERS show err and disable button
     if (data.length >= MAX_USERS) {
         showError(`Maximum of ${MAX_USERS} users reached.`);
         addUserBtn.disabled = true;
@@ -72,35 +81,50 @@ function doubleMoney() {
         // user.money doesn't work because we are just returning 
         // an array of current users money * 2, e. [251808,622250,1580233]
     });
+
+    // Render list again and set new currView while clearing errors
     updateDOM();
+
     if(wealthVisible) {
         calcTotalWealth();
     }
 }
 
 function sortByRichest() {
+    // Sort in desc order
     data.sort( (a,b) => b.money - a.money);
     
+    // Render list again and set new currView while clearing errors
     updateDOM();
 }
 
 function showOnlyMillionaires() {
-    // Reassign data when creating a new arr
+    // Create new data arr that holds users with more than 1 million dollars
     const millionaires = data.filter( user => user.money >= 1000000)
-    updateDOM(millionaires);
     // .filter() creates a new arr where the statement is true
+    
+    // Pass in a new currView
+    // Render list again and set new currView while clearing errors
+    updateDOM(millionaires);
+
+    // Calculate based on curr view
     calcTotalWealth();
 }
 
+// Sum of wealth
 function calcTotalWealth() {
     wealthVisible = true;
+
+    // Calc sum of wealth with reduce()
     const totalWealth = currView.reduce( (total, user) => total + user.money, 0);
+    // Fill div with formatted money
     wealthEl.innerHTML = `<h3>Total Wealth: 
         <strong>${formatMoney(totalWealth)}</strong></h3>`;
 }
 
 // Update DOM
 function updateDOM(providedData = data) {
+    // Set currView to the data arr to be the truth
     currView = providedData;
     
     // Clear error div
@@ -109,6 +133,8 @@ function updateDOM(providedData = data) {
     // Clear main div
     main.innerHTML = '<h2><strong>Person</strong> Wealth</h2>';
 
+    // For each user in data create a div with class="person" 
+    // that holds users name and money then append to main
     providedData.forEach( user => {
         const element = document.createElement('div');
         element.classList.add('person');
@@ -119,6 +145,7 @@ function updateDOM(providedData = data) {
 
 // Format number as money
 function formatMoney(number) {
+    // Regex Formatter
     return '$' + number.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
 }
 
