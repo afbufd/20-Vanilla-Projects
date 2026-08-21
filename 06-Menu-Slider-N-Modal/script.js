@@ -1,7 +1,25 @@
 const toggle = document.getElementById('toggle');
-const close = document.getElementById('close');
-const open = document.getElementById('open');
+const closeBtn = document.getElementById('close');
+const openBtn = document.getElementById('open');
 const modal = document.getElementById('modal');
+const form = document.querySelector('.modal-form');
+const submitBtn = document.getElementById('submitBtn');
+
+
+function closeModal() {
+    modal.classList.add('close');
+}
+
+function openModal() {
+    modal.classList.add('show-modal');
+}
+
+modal.addEventListener('animationend', (e) => {
+    if(e.animationName === 'modalclose') {
+        // Remove both classes from modal
+        modal.classList.remove('show-modal', 'close');
+    }
+})
 
 // Toggle nav
 toggle.addEventListener('click', () => {
@@ -9,8 +27,16 @@ toggle.addEventListener('click', () => {
 })
 
 // Show modal
-open.addEventListener('click', () => modal.classList.add('show-modal'));
+openBtn.addEventListener('click', openModal);
 // Hide modal
-close.addEventListener('click', () => modal.classList.remove('show-modal'));
+closeBtn.addEventListener('click', closeModal);
 // Hide modal outside click
-window.addEventListener('click', (e) => e.target == modal ? modal.classList.remove('show-modal') : false);
+window.addEventListener('click', (e) =>{
+    e.target == modal ? closeModal() : false
+});
+
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    closeModal();
+})
